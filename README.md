@@ -1,4 +1,4 @@
-# Math.Net Numerics MatrixExponential
+# Matrix Exponential for Math.Net Numerics
 
 An implementation of matrix exponential based on Padé approximation method.
 Please, see [[1]](https://www.sciencedirect.com/science/article/pii/0024379594001901) for the details
