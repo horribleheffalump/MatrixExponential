@@ -13,13 +13,10 @@ namespace MatrixExponential
 
             Matrix<double> exp_m = null;
 
-            try
-            {
-                // if m is diagonal, then matrix exponential is equal to pointwise exponential
-                DiagonalMatrix d = DiagonalMatrix.OfArray(m.ToArray());
-                exp_m = DenseMatrix.OfDiagonalVector(d.Diagonal().PointwiseExp());
-            }
-            catch
+            // if m is diagonal, then matrix exponential is equal to pointwise exponential
+            if (m.IsDiagonal())
+                exp_m = DenseMatrix.OfDiagonalVector(m.Diagonal().PointwiseExp());
+            else
             {
                 // unfortunately m is not diagonal
                 // so let's try to diagonalize it
@@ -88,6 +85,21 @@ namespace MatrixExponential
                 }
             }
             return exp_m;
+        }
+
+        public static bool IsDiagonal(this Matrix<double> m)
+        {
+            if (m.RowCount != m.ColumnCount)
+                throw new ArgumentException("Matrix should be square");
+
+            for (int i = 0; i < m.ColumnCount; i++)
+                for (int j = i + 1; j < m.ColumnCount; j++)
+                {
+                    if (m[i, j] != 0.0) return false;
+                    if (m[j, i] != 0.0) return false;
+                }
+
+            return true;
         }
     }
 }
